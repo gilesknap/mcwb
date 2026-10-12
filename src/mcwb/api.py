@@ -71,29 +71,49 @@ def polygon(
     make_tunnel(client, profile, center, length=height, direction=direction, mode=mode)
 
 
-_bottom = -64  # the bottom of the world - only compatible with MC 1.19 upwards
+# loot spawn drops its items here: far enough below the bottom of any vanilla
+# dimension (the overworld starts at y=-64) that the server discards them on
+# the next tick instead of letting them pile up on the bedrock floor
+_dump_y = -1000
 _extract_item = re.compile(r".*minecraft\:(?:blocks\/)?(.+)$")
+# blocks with no loot table (air, water, bedrock, ...) make loot fail with this
+# message, which contains the English display name of the block
+_no_loot_table = re.compile(r"^Block (.+) has no loot table$")
+# display names that do not convert to the block id by the default rule
+_display_name_ids = {"jigsaw_block": "jigsaw"}
+
+
+def _block_id_from_display_name(display_name: str) -> str:
+    block_id = display_name.lower().replace(" ", "_")
+    return _display_name_ids.get(block_id, block_id)
 
 
 def get_block(client: Client, pos: Vec3) -> Item:
     """Get the block at the given position.
 
-    Raises ValueError if the server reports a block identifier that is not
-    in `Item` (i.e. one added after ``MINECRAFT_VERSION``).
+    Uses ``loot spawn <dump> mine <pos>``, which reports the loot table of the
+    block, i.e. ``minecraft:blocks/<id>``. Blocks without a loot table such as
+    air, water or bedrock are identified from the error message instead.
+
+    Some blocks share the loot table of a related block, e.g. a wall torch
+    reads back as a torch and a wall sign as a sign.
+
+    Raises ValueError if the position is not loaded or the server reports a
+    block identifier that is not in `Item` (i.e. one added after
+    ``MINECRAFT_VERSION``).
     """
 
-    # loot.spawn creates an entity - We choose to dump it into the void.
-    # We choose the point right below pos to avoid any issues with
-    # the block being in an chunk that is not loaded.
-    dump = (pos.x, _bottom, pos.z)
+    # loot.spawn creates an item entity - drop it into the void below pos so
+    # that it is discarded and does not need a separate loaded chunk
+    dump = (pos.x, _dump_y, pos.z)
 
-    # currently the only way to test for a block is to use the loot spawn
-    # command, this creates an entity that falls into the void
     output = client.loot.spawn(dump).mine(pos)  # type: ignore
-    match = _extract_item.search(output)
-    if not match:
+    if match := _no_loot_table.search(output):
+        name = _block_id_from_display_name(match.group(1))
+    elif match := _extract_item.search(output):
+        name = match.group(1)
+    else:
         raise ValueError(f"unexpected response from loot spawn: {output}")
-    name = match.group(1)
     if name == "empty":
         name = "air"
 

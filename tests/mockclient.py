@@ -39,7 +39,14 @@ class MockClient:
             def spawn(self, dump):
                 class Mine:
                     def mine(self, pos: Vec3):
-                        return str(parent.getblock(pos))
+                        # mimic the responses of a Minecraft 26.x server
+                        block = Item(parent.getblock(pos))
+                        if block == Item.AIR:
+                            return "Block Air has no loot table"
+                        return (
+                            "Dropped 1 [Mock Item] from loot table "
+                            f"minecraft:blocks/{block.value.removeprefix('minecraft:')}"
+                        )
 
                 return Mine()
 

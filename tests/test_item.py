@@ -43,6 +43,57 @@ def test_get_block_modern():
     assert get_block(client, pos) is Item.DEEPSLATE  # type: ignore
 
 
+class _LootClient:
+    """Return a canned response to ``loot spawn ... mine ...``."""
+
+    def __init__(self, response: str):
+        self.response = response
+
+    @property
+    def loot(self):
+        response = self.response
+
+        class Spawn:
+            def spawn(self, dump):
+                assert dump[1] < -128  # below the void kill level
+
+                class Mine:
+                    def mine(self, pos):
+                        return response
+
+                return Mine()
+
+        return Spawn()
+
+
+@pytest.mark.parametrize(
+    "response, expected",
+    [
+        # real responses from a Minecraft 26.3 server
+        (
+            "Dropped 1 [Dirt] from loot table minecraft:blocks/grass_block",
+            Item.GRASS_BLOCK,
+        ),
+        ("Dropped 0 items from loot table minecraft:blocks/glass", Item.GLASS),
+        ("Dropped 0 items from loot table minecraft:empty", Item.AIR),
+        ("Block Air has no loot table", Item.AIR),
+        ("Block Cave Air has no loot table", Item.CAVE_AIR),
+        ("Block Water has no loot table", Item.WATER),
+        ("Block Bedrock has no loot table", Item.BEDROCK),
+        ("Block Jigsaw Block has no loot table", Item.JIGSAW),
+    ],
+)
+def test_get_block_responses(response, expected):
+    client = _LootClient(response)
+    assert get_block(client, Vec3(0, 0, 0)) is expected  # type: ignore
+
+
+def test_get_block_not_loaded():
+    client = _LootClient("That position is not loaded")
+    with pytest.raises(ValueError, match="unexpected response"):
+        get_block(client, Vec3(0, 0, 0))  # type: ignore
+
+
 def test_direction_methods():
     # classmethod properties were removed in Python 3.13, these are methods now
     assert Direction.cardinals() == [
