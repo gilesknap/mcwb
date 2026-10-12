@@ -22,8 +22,18 @@ Install mcwb from the [AUR](https://aur.archlinux.org/packages/python-mcwb/) or 
     pip install mcwb
 
 ## Requirements
-`mcwb` requires Python 3.9 or higher. It also depends on [mcipc](https://github.com/conqp/mcipc).
+`mcwb` requires Python 3.11 or higher. It uses [mcipc](https://github.com/conqp/mcipc)
+for the RCON client and its command wrappers.
 If you install `mcwb` via `pip`, it will automatically be installed as a dependency.
+
+## Blocks and items
+`mcwb.Item` is an enum of every block and item identifier in a recent Minecraft
+Java Edition release (see `mcwb.MINECRAFT_VERSION`). It replaces
+`mcipc.rcon.enumerations.Item`, which stopped at Minecraft 1.16. Members compare
+equal to the matching mcipc members and to plain strings such as
+`"minecraft:deepslate"`. To refresh it for a newer Minecraft release, run:
+
+    uv run python scripts/generate_items.py
 
 ## Credits
 Many thanks to all contributors to the [Minecraft Wiki](https://minecraft.gamepedia.com/) and the [Wiki.vg](https://wiki.vg/Main_Page).

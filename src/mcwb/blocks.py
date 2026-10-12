@@ -4,10 +4,10 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 
 from mcwb.functions import shift
+from mcwb.item import Item
 from mcwb.itemlists import grab, load_items, save_items
 from mcwb.types import Anchor3, Cuboid, Items, Planes3d, Vec3
 from mcwb.volume import Volume

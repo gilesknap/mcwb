@@ -6,9 +6,10 @@ This mocks a world of 100 blocks square with origin in the middle.
 from math import floor
 
 import numpy as np
-from mcipc.rcon.enumerations import FillMode, Item
+from mcipc.rcon.enumerations import FillMode
 
 from mcwb import Items, Vec3
+from mcwb.item import Item
 
 
 class MockClient:

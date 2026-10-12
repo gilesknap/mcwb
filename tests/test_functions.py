@@ -4,9 +4,8 @@ from functools import partial
 from itertools import product
 from unittest import TestCase
 
-from mcipc.rcon.enumerations import Item
-
 from mcwb.functions import get_direction, normalize, offsets, validate, y_rotate
+from mcwb.item import Item
 from mcwb.types import Anchor, Direction, Vec3
 
 

@@ -8,6 +8,7 @@
 
 from mcwb.api import get_block, make_tunnel, polygon
 from mcwb.blocks import Blocks
+from mcwb.item import MINECRAFT_VERSION, Item
 from mcwb.types import (
     Anchor,
     Anchor3,
@@ -32,7 +33,9 @@ __all__ = [
     "Blocks",
     "Cuboid",
     "Direction",
+    "Item",
     "Items",
+    "MINECRAFT_VERSION",
     "Planes3d",
     "Profile",
     "Row",

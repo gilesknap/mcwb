@@ -8,7 +8,8 @@ from math import atan2, ceil, floor, pi, sqrt
 from typing import NamedTuple
 
 import numpy as np
-from mcipc.rcon.enumerations import Item
+
+from mcwb.item import Item
 
 __all__ = [
     "Anchor",

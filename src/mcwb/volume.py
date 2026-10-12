@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
 
 from mcwb.api import make_tunnel
+from mcwb.item import Item
 from mcwb.types import Anchor, Anchor3, Anchor3Face, Direction, Vec3
 
 __all__ = ["Volume"]

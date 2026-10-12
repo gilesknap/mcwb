@@ -4,9 +4,10 @@ import re
 
 import numpy as np
 from mcipc.rcon.client import Client
-from mcipc.rcon.enumerations import FillMode, Item
+from mcipc.rcon.enumerations import FillMode
 
 from mcwb.functions import get_direction, normalize, offsets, validate
+from mcwb.item import MINECRAFT_VERSION, Item
 from mcwb.polygon import poly_profile
 from mcwb.types import Anchor, Direction, Profile, Vec3
 
@@ -74,8 +75,12 @@ _bottom = -64  # the bottom of the world - only compatible with MC 1.19 upwards
 _extract_item = re.compile(r".*minecraft\:(?:blocks\/)?(.+)$")
 
 
-def get_block(client: Client, pos: Vec3):
-    """Get the block at the given position."""
+def get_block(client: Client, pos: Vec3) -> Item:
+    """Get the block at the given position.
+
+    Raises ValueError if the server reports a block identifier that is not
+    in `Item` (i.e. one added after ``MINECRAFT_VERSION``).
+    """
 
     # loot.spawn creates an entity - We choose to dump it into the void.
     # We choose the point right below pos to avoid any issues with
@@ -92,4 +97,10 @@ def get_block(client: Client, pos: Vec3):
     if name == "empty":
         name = "air"
 
-    return Item(name)
+    try:
+        return Item(name)
+    except ValueError as e:
+        raise ValueError(
+            f"unknown block '{name}': mcwb.Item is generated from Minecraft "
+            f"{MINECRAFT_VERSION}, regenerate it with scripts/generate_items.py"
+        ) from e

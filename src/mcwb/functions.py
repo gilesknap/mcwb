@@ -4,8 +4,8 @@ import typing
 from collections.abc import Iterator
 
 import numpy as np
-from mcipc.rcon.enumerations import Item
 
+from mcwb.item import Item
 from mcwb.types import Anchor, Direction, Items, Number, Offsets, Profile, Row, Vec3
 
 __all__ = ["get_direction", "normalize", "offsets", "validate"]

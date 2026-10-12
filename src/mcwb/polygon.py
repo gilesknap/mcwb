@@ -5,7 +5,8 @@ functions for creating polygons in profiles (2d lists of Items)
 import math
 
 import numpy as np
-from mcipc.rcon.enumerations import Item
+
+from mcwb.item import Item
 
 
 def poly_points(diameter: int, sides: int, offset: float | None = None):
