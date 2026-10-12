@@ -53,4 +53,3 @@ This program is free software and is not affiliated with Mojang.
 <!-- README only content. Anything below this line won't be included in index.md -->
 
 See https://mcipc-tools.github.io/mcwb for more detailed documentation.
-

@@ -2,6 +2,7 @@
 A mock client for testing functions that call the minecraft server.
 This mocks a world of 100 blocks square with origin in the middle.
 """
+
 from math import floor
 
 import numpy as np

@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from enum import Enum
 from math import atan2, ceil, floor, pi, sqrt
-from typing import Iterator, List, NamedTuple, Tuple, Union
+from typing import NamedTuple, Union
 
 import numpy as np
 from mcipc.rcon.enumerations import Item
@@ -120,7 +121,7 @@ class Vec3(NamedTuple):
 
         # Explicitly call to tuple, since
         # super() does not work in NamedTuples.
-        return tuple.__getitem__(self, index_or_key) # type: ignore
+        return tuple.__getitem__(self, index_or_key)  # type: ignore
 
     def __mul__(self, other):
         if isinstance(other, Vec3):
@@ -291,11 +292,11 @@ class Planes3d(Enum):
     YZ = (1, 2)
 
 
-Row = Union[List[Item], np.ndarray]
-Profile = Union[List[Row], np.ndarray]
-Cuboid = Union[List[Profile], np.ndarray]
+Row = Union[list[Item], np.ndarray]
+Profile = Union[list[Row], np.ndarray]
+Cuboid = Union[list[Profile], np.ndarray]
 
 Items = Union[Cuboid, Profile, Row]
 
-Offset = Tuple[Item, Vec3]
+Offset = tuple[Item, Vec3]
 Offsets = Iterator[Offset]

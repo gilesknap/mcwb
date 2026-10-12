@@ -1,6 +1,7 @@
-""" render and transform cuboids of blocks in minecraft space """
+"""render and transform cuboids of blocks in minecraft space"""
+
 from pathlib import Path
-from typing import Any, Union
+from typing import Any
 
 import numpy as np
 from mcipc.rcon.enumerations import Item
@@ -22,7 +23,7 @@ class Blocks:
         self,
         client: Client,
         position: Vec3,
-        cube: Union[Items, np.ndarray],
+        cube: Items | np.ndarray,
         anchor: Anchor3 = Anchor3.BOTTOM_NW,
         render: bool = True,
     ) -> None:
@@ -109,7 +110,7 @@ class Blocks:
 
     def to_cuboid(self) -> Cuboid:
         """return the blocks' contents as a Cuboid"""
-        return self.ncube.tolist() # type: ignore
+        return self.ncube.tolist()  # type: ignore
 
     def save_blocks(self, file: Path) -> None:
         """save the blocks to a file"""

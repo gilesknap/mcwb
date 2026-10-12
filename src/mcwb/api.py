@@ -1,7 +1,6 @@
 """Exposed API functions."""
 
 import re
-from typing import Optional, Union
 
 import numpy as np
 from mcipc.rcon.client import Client
@@ -16,16 +15,16 @@ __all__ = ["make_tunnel"]
 
 def make_tunnel(
     client: Client,
-    profile: Union[Profile, np.ndarray],
+    profile: Profile | np.ndarray,
     start: Vec3,
     *,
-    end: Optional[Vec3] = None,
+    end: Vec3 | None = None,
     direction: Vec3 = Direction.UP,
     length: int = 1,
     anchor: Anchor = Anchor.CENTER,
     default: Item = Item.AIR,
     mode: FillMode = FillMode.KEEP,
-    filter: Optional[str] = None,
+    filter: str | None = None,
 ):
     """Creates a tunnel with the given profile."""
 

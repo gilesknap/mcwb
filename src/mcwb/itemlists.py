@@ -8,12 +8,11 @@ Functions for manipulating lists of Items
 import codecs
 import json
 from pathlib import Path
-from typing import Optional, Union
 
 import numpy as np
-from numpy.typing import NDArray
 from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
+from numpy.typing import NDArray
 
 from mcwb.api import get_block
 from mcwb.functions import validate
@@ -27,7 +26,7 @@ def save_items(items: Items, filename: Path) -> None:
     """save a Profile, Cuboid or Row to a json file"""
 
     if isinstance(items, np.ndarray):
-        items = items.tolist() # type: ignore
+        items = items.tolist()  # type: ignore
 
     def json_item(item: Item):
         return {ITEM_KEY: item.value}
@@ -46,7 +45,7 @@ def save_items(items: Items, filename: Path) -> None:
         )
 
 
-def load_items(filename: Union[Path, str], dimensions: Optional[int] = None) -> Items:
+def load_items(filename: Path | str, dimensions: int | None = None) -> Items:
     """load a JSON file of Items - returns a Cuboid, Profile or Row"""
 
     def as_item(dct: dict):
@@ -79,4 +78,4 @@ def grab(client: Client, vol: Volume) -> Cuboid:
         cube[idx] = get_block(client, vol.start + Vec3(*idx))
 
     result = cube.tolist()
-    return result # type: ignore
+    return result  # type: ignore

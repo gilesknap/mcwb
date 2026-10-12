@@ -1,22 +1,22 @@
 """
 functions for creating polygons in profiles (2d lists of Items)
 """
+
 import math
 import operator
-from typing import List, Optional, Tuple
 
 import numpy as np
 from mcipc.rcon.enumerations import Item
 
 
-def poly_points(diameter: int, sides: int, offset: Optional[float] = None):
+def poly_points(diameter: int, sides: int, offset: float | None = None):
     """
     Returns a set of 2d points tp make a polygon with the given diameter and
     number of sides.
     """
 
-    x_points: List[int] = []
-    z_points: List[int] = []
+    x_points: list[int] = []
+    z_points: list[int] = []
 
     if sides < 3:
         raise ValueError("Number of sides must be at least 3.")
@@ -59,8 +59,8 @@ def poly_profile(
 
 def poly_draw(
     profile: np.ndarray,
-    vertices: List[Tuple[int, int]],
-    center: Tuple[int, int],
+    vertices: list[tuple[int, int]],
+    center: tuple[int, int],
     item: Item,
     fill_item: Item = Item.AIR,
 ) -> np.ndarray:
@@ -95,8 +95,8 @@ def poly_draw(
 
 def draw_line_xz(
     profile: np.ndarray,
-    start: Tuple[int, int],  # x, z
-    end: Tuple[int, int],  # x, z
+    start: tuple[int, int],  # x, z
+    end: tuple[int, int],  # x, z
     item: Item = Item.AIR,
     overlap: int = 0,
 ):

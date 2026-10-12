@@ -1,7 +1,7 @@
 """Helper functions."""
 
-from typing import Iterator, Union
 import typing
+from collections.abc import Iterator
 
 import numpy as np
 from mcipc.rcon.enumerations import Item
@@ -56,9 +56,7 @@ def y_rotate(direction: Vec3, clockwise: bool = True) -> Vec3:
     return Direction.cardinals()[rotated % len(Direction.cardinals())]
 
 
-def normalize(
-    profile: Union[Profile, np.ndarray], default: Item = Item.AIR
-) -> Iterator[Row]:
+def normalize(profile: Profile | np.ndarray, default: Item = Item.AIR) -> Iterator[Row]:
     """Normalizes a profile."""
 
     for row in profile:
@@ -97,10 +95,11 @@ def validate(items: Items):
 
     return dims
 
+
 # This results in a lot of
 # error: Slice index must be an integer, SupportsIndex or None
-# Invalid index type "tuple[slice[None, None, None], slice[None, float | int, None], slice[None, None, None]]" 
-#   for "ndarray[Any, Any]"; expected type "ndarray[tuple[int, ...], dtype[integer[Any] | numpy.bool[builtins.bool]]] 
+# Invalid index type "tuple[slice[None, None, None], slice[None, float | int, None], slice[None, None, None]]"
+#   for "ndarray[Any, Any]"; expected type "ndarray[tuple[int, ...], dtype[integer[Any] | numpy.bool[builtins.bool]]]
 #   | tuple[ndarray[tuple[int, ...], dtype[integer[Any] | numpy.bool[builtins.bool]]], ...]"  [index]
 @typing.no_type_check
 def shift(arr: np.ndarray, vec: Vec3, fill: Item = Item.AIR) -> np.ndarray:
