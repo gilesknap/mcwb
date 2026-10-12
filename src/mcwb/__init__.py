@@ -1,3 +1,11 @@
+"""Top level API.
+
+.. data:: __version__
+    :type: str
+
+    Version number as calculated by https://github.com/pypa/setuptools_scm
+"""
+
 from mcwb.api import get_block, make_tunnel, polygon
 from mcwb.blocks import Blocks
 from mcwb.types import (

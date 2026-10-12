@@ -1,15 +1,16 @@
 [![CI](https://github.com/mcipc-tools/mcwb/actions/workflows/ci.yml/badge.svg)](https://github.com/mcipc-tools/mcwb/actions/workflows/ci.yml)
 [![Coverage](https://codecov.io/gh/mcipc-tools/mcwb/branch/main/graph/badge.svg)](https://codecov.io/gh/mcipc-tools/mcwb)
 [![PyPI](https://img.shields.io/pypi/v/mcwb.svg)](https://pypi.org/project/mcwb)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 # mcwb
 
 A Minecraft world builder library.
 
 
-Source          | <https://github.com/mcipc-tools/mcwb>
+What            | Where
 :---:           | :---:
+Source          | <https://github.com/mcipc-tools/mcwb>
 PyPI            | `pip install mcwb`
 Documentation   | <https://mcipc-tools.github.io/mcwb>
 Releases        | <https://github.com/mcipc-tools/mcwb/releases>

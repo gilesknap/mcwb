@@ -6,6 +6,7 @@ Technical reference material including APIs and release notes.
 :maxdepth: 1
 :glob:
 
-reference/*
+API <_api/mcwb>
 genindex
+Release Notes <https://github.com/mcipc-tools/mcwb/releases>
 ```
