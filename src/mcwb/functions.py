@@ -42,7 +42,7 @@ def get_direction(start: Vec3, end: Vec3) -> Vec3:
     and returns the direction vector.
     """
 
-    if sum(coord1 != coord2 for coord1, coord2 in zip(start, end)) != 1:
+    if sum(coord1 != coord2 for coord1, coord2 in zip(start, end, strict=True)) != 1:
         raise ValueError("Not one direction given.")
 
     return end - start
@@ -96,11 +96,8 @@ def validate(items: Items):
     return dims
 
 
-# This results in a lot of
-# error: Slice index must be an integer, SupportsIndex or None
-# Invalid index type "tuple[slice[None, None, None], slice[None, float | int, None], slice[None, None, None]]"
-#   for "ndarray[Any, Any]"; expected type "ndarray[tuple[int, ...], dtype[integer[Any] | numpy.bool[builtins.bool]]]
-#   | tuple[ndarray[tuple[int, ...], dtype[integer[Any] | numpy.bool[builtins.bool]]], ...]"  [index]
+# Vec3 components are typed as Number (float | int) so numpy's slice index
+# typing rejects them; they are always ints in practice.
 @typing.no_type_check
 def shift(arr: np.ndarray, vec: Vec3, fill: Item = Item.AIR) -> np.ndarray:
     """shift a 3d array of Item by vec, discarding the cells that are

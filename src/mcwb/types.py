@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Iterator
 from enum import Enum
 from math import atan2, ceil, floor, pi, sqrt
-from typing import NamedTuple, Union
+from typing import NamedTuple
 
 import numpy as np
 from mcipc.rcon.enumerations import Item
@@ -25,7 +25,7 @@ __all__ = [
 ]
 
 
-Number = Union[float, int]
+Number = float | int
 
 
 class Anchor(Enum):
@@ -292,11 +292,11 @@ class Planes3d(Enum):
     YZ = (1, 2)
 
 
-Row = Union[list[Item], np.ndarray]
-Profile = Union[list[Row], np.ndarray]
-Cuboid = Union[list[Profile], np.ndarray]
+Row = list[Item] | np.ndarray
+Profile = list[Row] | np.ndarray
+Cuboid = list[Profile] | np.ndarray
 
-Items = Union[Cuboid, Profile, Row]
+Items = Cuboid | Profile | Row
 
 Offset = tuple[Item, Vec3]
 Offsets = Iterator[Offset]

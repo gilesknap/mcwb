@@ -12,7 +12,6 @@ from pathlib import Path
 import numpy as np
 from mcipc.rcon.enumerations import Item
 from mcipc.rcon.je import Client
-from numpy.typing import NDArray
 
 from mcwb.api import get_block
 from mcwb.functions import validate
@@ -72,7 +71,7 @@ def load_items(filename: Path | str, dimensions: int | None = None) -> Items:
 
 def grab(client: Client, vol: Volume) -> Cuboid:
     """copy blocks from a Volume in the minecraft world into a cuboid of Item"""
-    cube: NDArray[Item] = np.ndarray(vol.size.i_tuple, dtype=Item)
+    cube: np.ndarray = np.ndarray(vol.size.i_tuple, dtype=Item)
 
     for idx, _ in np.ndenumerate(cube):
         cube[idx] = get_block(client, vol.start + Vec3(*idx))

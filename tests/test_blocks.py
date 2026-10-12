@@ -20,7 +20,7 @@ class TestRotation(TestCase):
         self.cube = load_items(cubes_dir / "RGB.cube")
         self.start = Vec3(0, 0, 0)
 
-    def test_XY(self):
+    def test_xy(self):
         world_cube = Blocks(cast(Client, self.client), self.start, self.cube)
         for rot in range(1, 4):
             world_cube.rotate(Planes3d.XY)
@@ -32,14 +32,14 @@ class TestRotation(TestCase):
         world_cube.rotate(Planes3d.XY)
         self.assertTrue(self.client.compare(self.start, self.cube))
 
-    def test_XZ(self):
+    def test_xz(self):
         world_cube = Blocks(cast(Client, self.client), self.start, self.cube)
         world_cube.rotate(Planes3d.XZ)
         rotated = load_items(cubes_dir / "RGBrotateXZ1.cube")
 
         self.assertTrue(self.client.compare(self.start, rotated))
 
-    def test_YZ(self):
+    def test_yz(self):
         world_cube = Blocks(cast(Client, self.client), self.start, self.cube)
         world_cube.rotate(Planes3d.YZ)
         rotated = load_items(cubes_dir / "RGBrotateYZ1.cube")

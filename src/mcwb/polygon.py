@@ -3,7 +3,6 @@ functions for creating polygons in profiles (2d lists of Items)
 """
 
 import math
-import operator
 
 import numpy as np
 from mcipc.rcon.enumerations import Item
@@ -49,7 +48,7 @@ def poly_profile(
     x_points, z_points = poly_points(diameter=diameter, sides=sides, offset=offset)
     x_size = max(x_points) - min(x_points) + 1
     z_size = max(z_points) - min(z_points) + 1
-    vertices = list(zip(x_points, z_points))
+    vertices = list(zip(x_points, z_points, strict=True))
 
     profile = np.full(shape=(x_size, z_size), fill_value=Item.AIR, dtype=Item)
     center = math.floor(x_size / 2), math.floor(z_size / 2)
@@ -69,8 +68,8 @@ def poly_draw(
     inside of a profile (2d array of Item).
     """
 
-    def add_2d(x, z):
-        return tuple(map(operator.add, x, z))
+    def add_2d(x: tuple[int, int], z: tuple[int, int]) -> tuple[int, int]:
+        return (x[0] + z[0], x[1] + z[1])
 
     sides = len(vertices)
 

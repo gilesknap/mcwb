@@ -510,5 +510,5 @@ class TestDirection(TestCase):
             Direction.SOUTH,
         ]
 
-        for p2, direction in zip(p2s, dirs):
+        for p2, direction in zip(p2s, dirs, strict=True):
             assert Direction.facing(p1, p2) == direction

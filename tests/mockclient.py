@@ -23,7 +23,7 @@ class MockClient:
     def setblock(self, position: Vec3, block: Item):
         """set the block at position in the world"""
         pos = position + self.offset
-        self.world[pos.x, pos.y, pos.z] = block
+        self.world[int(pos.x), int(pos.y), int(pos.z)] = block
 
     @property
     def loot(self):
@@ -34,15 +34,15 @@ class MockClient:
         """
         parent = self
 
-        class spawn_cls:
+        class Spawn:
             def spawn(self, dump):
-                class mine_cls:
+                class Mine:
                     def mine(self, pos: Vec3):
                         return str(parent.getblock(pos))
 
-                return mine_cls()
+                return Mine()
 
-        return spawn_cls()
+        return Spawn()
 
     def fill(
         self,
