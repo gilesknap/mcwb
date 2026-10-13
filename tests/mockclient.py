@@ -57,21 +57,25 @@ class MockClient:
         start: Vec3,
         end: Vec3,
         block: Item,
-        mode: FillMode = FillMode.KEEP,
+        mode: FillMode | None = None,
         filter: str = "",
     ):
+        """mimic /fill: REPLACE (the server default) overwrites every block,
+        KEEP only replaces air"""
         block = Item(block)  # ensure enum
-        if block == Item.AIR:
-            return
         start += self.offset
         end += self.offset + 1
         lower = Vec3(min(start.x, end.x), min(start.y, end.y), min(start.z, end.z))
         upper = Vec3(max(start.x, end.x), max(start.y, end.y), max(start.z, end.z))
-        self.world[
+        region = self.world[
             floor(lower.x) : floor(upper.x),
             floor(lower.y) : floor(upper.y),
             floor(lower.z) : floor(upper.z),
-        ] = block
+        ]
+        if mode == FillMode.KEEP:
+            region[region == Item.AIR] = block
+        else:
+            region[...] = block
 
     ###########################################################################
     # the following are additional functions for use in tests #################

@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
+from mcipc.rcon.enumerations import FillMode
 from mcipc.rcon.je import Client
 
-from mcwb.api import make_tunnel
 from mcwb.item import Item
-from mcwb.types import Anchor, Anchor3, Anchor3Face, Direction, Vec3
+from mcwb.types import Anchor3, Anchor3Face, Vec3
 
 __all__ = ["Volume"]
 
@@ -95,19 +95,26 @@ class Volume:
         self.position = position
 
     def fill(self, client: Client, block: Item = Item.AIR):
-        """Fill the Volume with a single block type, supports large volumes"""
-        if self.size.volume < MAX_MINECRAFT_FILL_COMMAND:
-            client.fill(self.start, self.end, block.value)
-        else:
-            profile = [[block] * int(self.size.x)] * int(self.size.y)
-            make_tunnel(
-                client,
-                profile,  # type: ignore
-                self.start,
-                direction=Direction.UP,
-                anchor=Anchor.BOTTOM_LEFT,
-                length=int(self.size.dz),
-            )
+        """
+        Fill the Volume with a single block type, replacing every block in it.
+
+        Supports volumes of any size: those too big for one /fill command are
+        split into boxes that are each small enough for one.
+        """
+        limit = MAX_MINECRAFT_FILL_COMMAND - 1
+        x, y, z = int(self.size.x), int(self.size.y), int(self.size.z)
+        # box dimensions: whole layers of the volume where they fit, else rows
+        sx = min(x, limit)
+        sz = min(z, max(1, limit // sx))
+        sy = min(y, max(1, limit // (sx * sz)))
+        for oy in range(0, y, sy):
+            for oz in range(0, z, sz):
+                for ox in range(0, x, sx):
+                    start = self.start + Vec3(ox, oy, oz)
+                    end = self.start + Vec3(
+                        min(ox + sx, x) - 1, min(oy + sy, y) - 1, min(oz + sz, z) - 1
+                    )
+                    client.fill(start, end, block.value, mode=FillMode.REPLACE)
 
     def walls(
         self,
