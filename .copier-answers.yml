@@ -1,0 +1,16 @@
+# Changes here will be overwritten by Copier
+_commit: 5.4.0
+_src_path: gh:DiamondLightSource/python-copier-template
+author_email: ''
+author_name: Richard Neumann
+description: Minecraft Interactive World Builder
+distribution_name: mcwb
+docker: false
+docs_type: sphinx
+git_platform: github.com
+github_org: mcipc-tools
+package_name: mcwb
+pypi: true
+repo_name: mcwb
+strict_typing: false
+type_checker: pyright

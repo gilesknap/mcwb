@@ -1,9 +1,8 @@
 from pathlib import Path
 from unittest import TestCase
 
-from mcipc.rcon.enumerations import Item
-
 from mcwb.api import polygon
+from mcwb.item import Item
 from mcwb.itemlists import grab, load_items
 from mcwb.types import Anchor3, Direction, Vec3
 from mcwb.volume import Volume
