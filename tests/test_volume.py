@@ -1,6 +1,7 @@
 from itertools import product
 from unittest import TestCase
 
+import numpy as np
 from mcipc.rcon.enumerations import FillMode
 
 from mcwb import Anchor3, Vec3, Volume
@@ -131,13 +132,13 @@ class TestVolumeFill(TestCase):
 
         vol.fill(client, Item.GOLD_BLOCK)  # type: ignore
         x, y, z = int(size.x), int(size.y), int(size.z)
-        self.assertTrue(client.compare(start, [[[Item.GOLD_BLOCK] * z] * y] * x))
+        self.assertTrue(client.compare(start, np.full((x, y, z), Item.GOLD_BLOCK)))
         # nothing outside the volume changed
         self.assertEqual(client.getblock(start + Vec3(x, 0, 0)), Item.STONE)
         self.assertEqual(client.getblock(start + Vec3(0, y, 0)), Item.AIR)
 
         vol.fill(client, Item.AIR)  # type: ignore
-        self.assertTrue(client.compare(start, [[[Item.AIR] * z] * y] * x))
+        self.assertTrue(client.compare(start, np.full((x, y, z), Item.AIR)))
         self.assertEqual(client.getblock(start + Vec3(x, 0, 0)), Item.STONE)
 
     def test_small_fill_replaces(self):
