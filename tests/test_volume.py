@@ -179,3 +179,21 @@ class TestVolumeFill(TestCase):
             self.assertEqual(len(covered), size.volume)
             self.assertEqual(min(covered), tuple(start))
             self.assertEqual(max(covered), tuple(start + size - 1))
+
+    def test_empty_fill_does_nothing(self):
+        """a volume with a zero dimension issues no /fill commands"""
+
+        class Recorder:
+            def __init__(self):
+                self.boxes = []
+
+            def fill(self, start, end, block, mode=None, filter=None):
+                self.boxes.append((start, end))
+
+        for size in (Vec3(0, 3, 3), Vec3(3, 0, 3), Vec3(3, 3, 0)):
+            client = Recorder()
+            Volume.from_anchor(Vec3(0, 0, 0), size, anchor=Anchor3.BOTTOM_NW).fill(
+                client,  # type: ignore
+                Item.STONE,
+            )
+            self.assertEqual(client.boxes, [])

@@ -59,3 +59,14 @@ class TestItemLists(TestCase):  # pylint: disable=R0902
         # validate the 'any dimensions' call to load_items
         items = load_items(path)
         self.assertEqual(items, self.cube)
+
+    def test_save_bad_item_keeps_file(self):
+        """A bad item raises without truncating an existing file."""
+        path = self.test_dir / "row_keep.json"
+        save_items(self.blue_row, path)
+        before = path.read_text()
+
+        with self.assertRaises(ValueError):
+            save_items([Item.STONE, "minecraft:not_an_item"], path)  # type: ignore
+
+        self.assertEqual(path.read_text(), before)
