@@ -1,0 +1,43 @@
+﻿``mcwb``
+========
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+.. automodule:: mcwb
+    :members:
+
+    
+    
+    
+
+    
+    
+    .. rubric:: Members
+
+    .. autosummary::
+        :nosignatures:
+    
+        Anchor
+        Anchor3
+        Anchor3Face
+        Blocks
+        Direction
+        Item
+        Planes3d
+        Vec3
+        Volume
+        make_tunnel
+        polygon
+        get_block
+    
+    
