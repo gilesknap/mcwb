@@ -2,12 +2,14 @@
 A mock client for testing functions that call the minecraft server.
 This mocks a world of 100 blocks square with origin in the middle.
 """
+
 from math import floor
 
 import numpy as np
-from mcipc.rcon.enumerations import FillMode, Item
+from mcipc.rcon.enumerations import FillMode
 
 from mcwb import Items, Vec3
+from mcwb.item import Item
 
 
 class MockClient:
@@ -22,7 +24,7 @@ class MockClient:
     def setblock(self, position: Vec3, block: Item):
         """set the block at position in the world"""
         pos = position + self.offset
-        self.world[pos.x, pos.y, pos.z] = block
+        self.world[int(pos.x), int(pos.y), int(pos.z)] = block
 
     @property
     def loot(self):
@@ -33,36 +35,47 @@ class MockClient:
         """
         parent = self
 
-        class spawn_cls:
+        class Spawn:
             def spawn(self, dump):
-                class mine_cls:
+                class Mine:
                     def mine(self, pos: Vec3):
-                        return str(parent.getblock(pos))
+                        # mimic the responses of a Minecraft 26.x server
+                        block = Item(parent.getblock(pos))
+                        if block == Item.AIR:
+                            return "Block Air has no loot table"
+                        return (
+                            "Dropped 1 [Mock Item] from loot table "
+                            f"minecraft:blocks/{block.value.removeprefix('minecraft:')}"
+                        )
 
-                return mine_cls()
+                return Mine()
 
-        return spawn_cls()
+        return Spawn()
 
     def fill(
         self,
         start: Vec3,
         end: Vec3,
         block: Item,
-        mode: FillMode = FillMode.KEEP,
+        mode: FillMode | None = None,
         filter: str = "",
     ):
+        """mimic /fill: REPLACE (the server default) overwrites every block,
+        KEEP only replaces air"""
         block = Item(block)  # ensure enum
-        if block == Item.AIR:
-            return
         start += self.offset
         end += self.offset + 1
         lower = Vec3(min(start.x, end.x), min(start.y, end.y), min(start.z, end.z))
         upper = Vec3(max(start.x, end.x), max(start.y, end.y), max(start.z, end.z))
-        self.world[
+        region = self.world[
             floor(lower.x) : floor(upper.x),
             floor(lower.y) : floor(upper.y),
             floor(lower.z) : floor(upper.z),
-        ] = block
+        ]
+        if mode == FillMode.KEEP:
+            region[region == Item.AIR] = block
+        else:
+            region[...] = block
 
     ###########################################################################
     # the following are additional functions for use in tests #################

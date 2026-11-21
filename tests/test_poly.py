@@ -1,10 +1,10 @@
 from pathlib import Path
 from unittest import TestCase
 
-from mcipc.rcon.enumerations import Item
-
 from mcwb.api import polygon
+from mcwb.item import Item
 from mcwb.itemlists import grab, load_items
+from mcwb.polygon import poly_profile
 from mcwb.types import Anchor3, Direction, Vec3
 from mcwb.volume import Volume
 from tests.mockclient import MockClient
@@ -66,3 +66,12 @@ class TestPoly(TestCase):
         expected = load_items(cube_path)
 
         assert client.compare(corner, expected)
+
+    def test_odd_sided_profile_does_not_wrap(self):
+        # a triangle with its apex up: the apex is alone in the first row and
+        # the base fills the last row, rather than wrapping round the profile
+        profile = poly_profile(sides=3, diameter=15, item=Item.STONE)
+
+        apex = [z for z, block in enumerate(profile[0]) if block != Item.AIR]
+        assert apex == [profile.shape[1] // 2]
+        assert all(block == Item.STONE for block in profile[-1])
