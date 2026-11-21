@@ -1,7 +1,7 @@
 [![CI](https://github.com/mcipc-tools/mcwb/actions/workflows/ci.yml/badge.svg)](https://github.com/mcipc-tools/mcwb/actions/workflows/ci.yml)
 [![Coverage](https://codecov.io/gh/mcipc-tools/mcwb/branch/main/graph/badge.svg)](https://codecov.io/gh/mcipc-tools/mcwb)
 [![PyPI](https://img.shields.io/pypi/v/mcwb.svg)](https://pypi.org/project/mcwb)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![License](https://img.shields.io/badge/License-GPLv3%2B-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # mcwb
 

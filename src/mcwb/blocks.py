@@ -103,10 +103,11 @@ class Blocks:
         old_volume = self.volume
         self.volume = Volume.from_anchor(position, Vec3(*self.ncube.shape), self.anchor)
 
-        self._render()
-
+        # clear first: clearing after would erase where old and new overlap
         if clear:
             old_volume.fill(self._client)
+
+        self._render()
 
     def to_cuboid(self) -> Cuboid:
         """return the blocks' contents as a Cuboid"""

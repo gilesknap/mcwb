@@ -54,8 +54,10 @@ def save_items(items: Items, filename: Path | str) -> None:
     if validate(items) == 0:
         raise ValueError("items is not a valid Row, Profile or Cuboid")
 
+    # convert first so that a bad item does not truncate an existing file
+    data = _to_json(items)
     with open(filename, "w", encoding="utf-8") as file:
-        json.dump(_to_json(items), file, separators=(",", ":"), indent=4)
+        json.dump(data, file, separators=(",", ":"), indent=4)
 
 
 def load_items(filename: Path | str, dimensions: int | None = None) -> Items:

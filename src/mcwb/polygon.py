@@ -52,7 +52,8 @@ def poly_profile(
     vertices = list(zip(x_points, z_points, strict=True))
 
     profile = np.full(shape=(x_size, z_size), fill_value=Item.AIR, dtype=Item)
-    center = math.floor(x_size / 2), math.floor(z_size / 2)
+    # shift the vertices so the most negative ones land on index 0
+    center = -min(x_points), -min(z_points)
 
     return poly_draw(profile, vertices, center, item, fill_item=fill_item)
 

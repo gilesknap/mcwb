@@ -103,6 +103,8 @@ class Volume:
         """
         limit = MAX_MINECRAFT_FILL_COMMAND - 1
         x, y, z = int(self.size.x), int(self.size.y), int(self.size.z)
+        if 0 in (x, y, z):
+            return
         # box dimensions: whole layers of the volume where they fit, else rows
         sx = min(x, limit)
         sz = min(z, max(1, limit // sx))

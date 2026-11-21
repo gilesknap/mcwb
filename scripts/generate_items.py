@@ -97,6 +97,9 @@ def main() -> None:
 
     names = zipfile.ZipFile(io.BytesIO(jar)).namelist()
     ids = sorted({m[1] for m in map(ID_PATTERN.fullmatch, names) if m})
+    # releases before 1.21.4 have no items/ directory, so only blocks match
+    if "diamond" not in ids:
+        raise SystemExit(f"Minecraft {version} predates assets/minecraft/items")
 
     members = "".join(f'    {i.upper()} = f"{{PREFIX}}{i}"\n' for i in ids)
     OUTPUT.write_text(HEADER.format(version=version) + members + FOOTER)
