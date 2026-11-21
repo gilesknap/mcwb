@@ -36,8 +36,10 @@ GENERATED FILE - do not edit by hand. Regenerate with
 The identifiers come from Minecraft {version}. They replace
 ``mcipc.rcon.enumerations.Item``, which has not been updated since
 Minecraft 1.16 and lacks blocks such as deepslate or cherry planks.
-This enum is a ``str`` subclass with the same member names, so its members
-compare equal to the matching mcipc members and to plain strings such as
+This enum is a ``str`` subclass with mcipc's member names, except those
+Minecraft has renamed or removed since 1.16 (for example ``GRASS`` is now
+``SHORT_GRASS`` and ``GRASS_PATH`` is now ``DIRT_PATH``). Its members compare
+equal to the matching mcipc members and to plain strings such as
 ``"minecraft:stone"``, and can be passed to any mcipc command.
 """
 

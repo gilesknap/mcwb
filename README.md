@@ -29,9 +29,12 @@ If you install `mcwb` via `pip`, it will automatically be installed as a depende
 ## Blocks and items
 `mcwb.Item` is an enum of every block and item identifier in a recent Minecraft
 Java Edition release (see `mcwb.MINECRAFT_VERSION`). It replaces
-`mcipc.rcon.enumerations.Item`, which stopped at Minecraft 1.16. Members compare
-equal to the matching mcipc members and to plain strings such as
-`"minecraft:deepslate"`. To refresh it for a newer Minecraft release, run:
+`mcipc.rcon.enumerations.Item`, which stopped at Minecraft 1.16. Member names
+match mcipc's, except about 100 that Minecraft has renamed or removed since 1.16
+(for example `GRASS` is now `SHORT_GRASS`, `GRASS_PATH` is `DIRT_PATH`, `CHAIN`
+is `IRON_CHAIN` and `MAGMA` is `MAGMA_BLOCK`). Members compare equal to the
+matching mcipc members and to plain strings such as `"minecraft:deepslate"`.
+To refresh it for a newer Minecraft release, run:
 
     uv run python scripts/generate_items.py
 
